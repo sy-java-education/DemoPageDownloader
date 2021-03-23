@@ -2,7 +2,6 @@ package com.slisenko.education.html;
 
 import java.io.*;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
@@ -10,27 +9,26 @@ import java.net.URL;
  */
 public class PageDownloader {
 
-    private final int SIZE_BUF = 256;
+    private final int SIZE_BUF = 100000;
 
     /**
      * Downloads a resource from the internet and saves it in a file
-     * @param urlStr Link to the resource
-     * @param pathStr File path
+     * @param link Link to the resource
+     * @param path File path
      * @return Returns true if successful, otherwise returns false
      */
-    public boolean download(String urlStr, String pathStr) {
+    public void download(String link, String path) throws DownloadException {
 
         URL url;
 
         try {
-            url = new URL(urlStr);
+            url = new URL(link);
         } catch (MalformedURLException e) {
-            System.err.println(this.getClass().getSimpleName() + ":MalformedURLException:" + e.getMessage());
-            return false;
+            throw new DownloadException("Error in the resource link");
         }
 
         try (InputStream reader = new BufferedInputStream(url.openStream());
-             OutputStream writer = new BufferedOutputStream(new FileOutputStream(pathStr));) {
+             OutputStream writer = new BufferedOutputStream(new FileOutputStream(path));) {
 
             int sizeReceived;
             byte[] buf = new byte[SIZE_BUF];
@@ -39,10 +37,7 @@ public class PageDownloader {
                 writer.write(buf, 0, sizeReceived);
             }
         } catch (IOException e) {
-            System.err.println(this.getClass().getSimpleName() + ":IOException:" + e.getMessage());
-            return false;
+            throw new DownloadException("Page loading error");
         }
-
-        return true;
     }
 }

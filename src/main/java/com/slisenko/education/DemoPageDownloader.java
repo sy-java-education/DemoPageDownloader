@@ -1,5 +1,6 @@
 package com.slisenko.education;
 
+import com.slisenko.education.html.DownloadException;
 import com.slisenko.education.html.PageDownloader;
 
 import java.io.File;
@@ -12,13 +13,15 @@ public class DemoPageDownloader {
 
         if (args.length >= 2) {
             PageDownloader pd = new PageDownloader();
-            if (pd.download(args[0], args[1])) {
-                System.out.println(String.format("The page %s was successfully downloaded to a file %s", args[0], args[1]));
-            } else {
-                System.out.println(String.format("An error occurred when downloading the page %s to a file %s", args[0], args[1]));
+            try {
+                pd.download(args[0], args[1]);
+            } catch (DownloadException e) {
+                System.out.println("Page download failed" + e.getMessage());
+                return;
             }
+            System.out.format("The page %s was successfully downloaded to a file %s", args[0], args[1]);
         } else {
-            System.out.println("example: DemoPageDownloader <url> <filename>");
+            System.out.println("example: DemoPageDownloader <link> <filename>");
         }
     }
 }
