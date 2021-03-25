@@ -24,7 +24,7 @@ public class PageDownloader {
         try {
             url = new URL(link);
         } catch (MalformedURLException e) {
-            throw new DownloadException("Error in the resource link");
+            throw new DownloadException("Error in the resource link " + link, e);
         }
 
         try (InputStream reader = new BufferedInputStream(url.openStream());
@@ -37,7 +37,7 @@ public class PageDownloader {
                 writer.write(buf, 0, sizeReceived);
             }
         } catch (IOException e) {
-            throw new DownloadException("Page loading error");
+            throw new DownloadException("Page loading error from link " + link + " to file " + path, e);
         }
     }
 }

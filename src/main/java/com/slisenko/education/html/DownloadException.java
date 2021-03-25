@@ -5,8 +5,8 @@ package com.slisenko.education.html;
  */
 public class DownloadException extends Exception {
 
-    public DownloadException(String message) {
+    public DownloadException(String message, Throwable e) {
 
-        super(message);
+        super(message, e);
     }
 }

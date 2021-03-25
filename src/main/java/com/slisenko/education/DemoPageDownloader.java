@@ -16,7 +16,8 @@ public class DemoPageDownloader {
             try {
                 pd.download(args[0], args[1]);
             } catch (DownloadException e) {
-                System.out.println("Page download failed" + e.getMessage());
+                System.out.println(e.getMessage());
+                System.out.println("Page download failed");
                 return;
             }
             System.out.format("The page %s was successfully downloaded to a file %s", args[0], args[1]);
